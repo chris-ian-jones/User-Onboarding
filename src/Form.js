@@ -40,6 +40,13 @@ const StyledLabel = styled.label`
 const ErrorMessage = styled.p`
   color: red;
 `
+const ErrorMessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`
 const StyledButton = styled.button`
   height: 40px;
   width: 200px;
@@ -58,11 +65,11 @@ const NewUserForm = ({ errors, touched, values, status }) => {
   return (
     <MainContainer>
       <StyledForm>
-        {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)}
+        {/* {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)} */}
         <StyledField type='text' name='name' placeholder='Name'/>
-        {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)}
+        {/* {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)} */}
         <StyledField type='email' name='email' placeholder='Email'/>
-        {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)}
+        {/* {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)} */}
         <StyledField type='password' name='password' placeholder='Password'/>
         <StyledLabel>
           TOS
@@ -71,6 +78,12 @@ const NewUserForm = ({ errors, touched, values, status }) => {
         <StyledButton type='submit'>Submit</StyledButton>
       </StyledForm>
       <UserContainer>
+        <ErrorMessageContainer>
+          {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)}
+          {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)}
+          {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)}
+          {touched.tos && errors.tos && (<ErrorMessage>{errors.tos}</ErrorMessage>)}
+        </ErrorMessageContainer>
         {users.map(user => <UserDetails user={user} key={user.email}/>)}
       </UserContainer>
     </MainContainer>
@@ -91,7 +104,7 @@ const FormikNewUserForm = withFormik({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email(),
     password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
-    // tos: Yup.required()
+    tos: Yup.boolean().oneOf([true], 'Please accept Terms and Conditions'),
   }),
 
   handleSubmit( values, { setStatus } ) {
