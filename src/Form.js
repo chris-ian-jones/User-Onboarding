@@ -1,31 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Field, withFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
 import axios from 'axios';
+import UserDetails from './UserDetails'
 
 const ErrorMessage = styled.p`
   color: red;
 `
 
-const NewUserForm = ({ errors, touched, values }) => {
+const NewUserForm = ({ errors, touched, values, status }) => {
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    if (status) {
+      setUsers([...users, status])
+      console.log(users)
+    }
+  }, [status])
+
   return (
-    <Form>
-      {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)}
-      <Field type='text' name='name' placeholder='Name'/>
-      {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)}
-      <Field type='email' name='email' placeholder='Email'/>
-      {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)}
-      <Field type='password' name='password' placeholder='Password'/>
-      <label>
-        TOS
-        <Field type='checkbox' name='tos' checked={values.tos}/>
-      </label>
-      <button type='submit'>Submit</button>
-    </Form>
+    <div>
+      <Form>
+        {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)}
+        <Field type='text' name='name' placeholder='Name'/>
+        {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)}
+        <Field type='email' name='email' placeholder='Email'/>
+        {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)}
+        <Field type='password' name='password' placeholder='Password'/>
+        <label>
+          TOS
+          <Field type='checkbox' name='tos' checked={values.tos}/>
+        </label>
+        <button type='submit'>Submit</button>
+      </Form>
+        {users.map(user => <UserDetails user={user}/>)}
+      {/* <UserDetails /> */}
+    </div>
   )
 }
-
 
 const FormikNewUserForm = withFormik({
   mapPropsToValues({ name, email, password, tos }) {
@@ -44,11 +57,14 @@ const FormikNewUserForm = withFormik({
     // tos: Yup.required()
   }),
 
-  handleSubmit( values ) {
+  handleSubmit( values, { setStatus } ) {
     axios
       .post("https://reqres.in/api/users", values)
-      .then(res => console.log('Axios success', res.data))
-      .catch(err => console.log('Axios error', err.response))
+      .then(res => {
+        setStatus(res.data);
+        // resetForm();
+      })
+      .catch(err => console.log('Axios error', err))
   }
 })(NewUserForm)
 
