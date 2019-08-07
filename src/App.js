@@ -5,7 +5,7 @@ import NewUserForm from './Form'
 function App() {
   return (
     <div className="App">
-      <p>placeholder for apps component</p>
+      <br />
       <NewUserForm />
     </div>
   );
