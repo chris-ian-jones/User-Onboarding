@@ -14,7 +14,6 @@ const MainContainer = styled.div`
   justify-content: center;
   margin-top: 60px;
 `
-
 const UserContainer = styled.div`
   width: 90%;
   margin: 0 5% 0 5%;
@@ -52,24 +51,22 @@ const StyledButton = styled.button`
   width: 200px;
   margin-left: 20px;
 `
+
 const NewUserForm = ({ errors, touched, values, status }) => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
     if (status) {
       setUsers([...users, status])
-      console.log(users)
+      // console.log(users)
     }
   }, [status])
 
   return (
     <MainContainer>
       <StyledForm>
-        {/* {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)} */}
         <StyledField type='text' name='name' placeholder='Name'/>
-        {/* {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)} */}
         <StyledField type='email' name='email' placeholder='Email'/>
-        {/* {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)} */}
         <StyledField type='password' name='password' placeholder='Password'/>
         <StyledField component='select' name='role'>
           <option value='' label='Please choose role'/>

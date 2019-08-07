@@ -8,7 +8,6 @@ margin: 60px 15px 0 15px;
 `
 
 const UserDetails = (props) => {
-  // console.log(props)
   return (
     <UserContainer>
       <List>
