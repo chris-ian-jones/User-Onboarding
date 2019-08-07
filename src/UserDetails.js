@@ -4,10 +4,9 @@ import 'semantic-ui-css/semantic.min.css'
 import styled from 'styled-components'
 
 const UserContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+margin: 60px 15px 0 15px;
 `
+
 const UserDetails = (props) => {
   // console.log(props)
   return (
@@ -23,9 +22,9 @@ const UserDetails = (props) => {
             <a href='mailto:jack@semantic-ui.com'>{props.user.email}</a>
           </List.Content>
         </List.Item>
+        <br />
       </List>
     </UserContainer>
-    // <p>{props.user.name}</p>
   )
 }
 

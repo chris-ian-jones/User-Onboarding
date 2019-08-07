@@ -5,7 +5,6 @@ import NewUserForm from './Form'
 function App() {
   return (
     <div className="App">
-      <br />
       <NewUserForm />
     </div>
   );
