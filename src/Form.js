@@ -71,6 +71,11 @@ const NewUserForm = ({ errors, touched, values, status }) => {
         <StyledField type='email' name='email' placeholder='Email'/>
         {/* {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)} */}
         <StyledField type='password' name='password' placeholder='Password'/>
+        <StyledField component='select' name='role'>
+          <option value='' label='Please choose role'/>
+          <option value='User' label='User'/>
+          <option value='Admin' label='Admin'/>
+        </StyledField>
         <StyledLabel>
           TOS
           <Field type='checkbox' name='tos' checked={values.tos}/>
@@ -82,6 +87,7 @@ const NewUserForm = ({ errors, touched, values, status }) => {
           {touched.name && errors.name && (<ErrorMessage>{errors.name}</ErrorMessage>)}
           {touched.email && errors.email && (<ErrorMessage>{errors.email}</ErrorMessage>)}
           {touched.password && errors.password && (<ErrorMessage>{errors.password}</ErrorMessage>)}
+          {touched.role && errors.role && (<ErrorMessage>{errors.role}</ErrorMessage>)}
           {touched.tos && errors.tos && (<ErrorMessage>{errors.tos}</ErrorMessage>)}
         </ErrorMessageContainer>
         {users.map(user => <UserDetails user={user} key={user.email}/>)}
@@ -91,12 +97,13 @@ const NewUserForm = ({ errors, touched, values, status }) => {
 }
 
 const FormikNewUserForm = withFormik({
-  mapPropsToValues({ name, email, password, tos }) {
+  mapPropsToValues({ name, email, password, tos, role }) {
     return {
       name: name || '',
       email: email || '',
       password: password || '',
-      tos: tos || false
+      tos: tos || false,
+      role: role || ''
     }
   },
 
@@ -105,6 +112,7 @@ const FormikNewUserForm = withFormik({
     email: Yup.string().required('Email is required').email(),
     password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
     tos: Yup.boolean().oneOf([true], 'Please accept Terms and Conditions'),
+    role: Yup.mixed().required('Please select role')
   }),
 
   handleSubmit( values, { setStatus } ) {

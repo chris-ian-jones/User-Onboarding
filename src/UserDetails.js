@@ -22,6 +22,7 @@ const UserDetails = (props) => {
             <a href='mailto:jack@semantic-ui.com'>{props.user.email}</a>
           </List.Content>
         </List.Item>
+        <p>{props.user.role}</p>
         <br />
       </List>
     </UserContainer>
